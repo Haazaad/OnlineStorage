@@ -7,6 +7,7 @@ import ru.haazad.onlinestorage.webapp.repository.ProductRepository;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -17,7 +18,10 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     @PostConstruct
     public void init() {
-        productList = new ArrayList<>();
+        productList = new ArrayList<>(Arrays.asList(
+                new Product(1L, "First", 1.1f),
+                new Product(2L, "Second", 22.2f)
+                ));
     }
 
     @Override
@@ -33,5 +37,11 @@ public class ProductRepositoryImpl implements ProductRepository {
     @Override
     public void addProduct(Product product) {
         productList.add(product);
+    }
+
+    @Override
+    public void changeCoast(Long id, Float diff) {
+        Product product = findProduct(id);
+        product.setCost(product.getCost() + diff);
     }
 }

@@ -40,7 +40,7 @@
         <tr>
             <th scope="col">id</th>
             <th scope="col">title</th>
-            <th scope="col">coat</th>
+            <th scope="col">coast</th>
             <th scope="col"></th>
         </tr>
         </thead>
@@ -48,11 +48,22 @@
         <tr th:each="p : ${products}">
             <td th:text="${p.id}"></td>
             <td th:text="${p.title}"></td>
-            <td th:text="${p.cost}"></td>
+            <td style="display: flex">
+                <form method="post" th:action="@{'/products'}" style="margin-right: 10px">
+                    <input type="hidden" name="productId" th:value="${p.id}">
+                    <button type="submit" class="btn btn-primary btn-sm" name="difference" value="-1">-</button>
+                </form>
+                <a th:text="${p.cost}"></a>
+                <form method="post" th:action="@{'/products'}" style="margin-left: 10px">
+                    <input type="hidden" name="productId" th:value="${p.id}">
+                    <button type="submit" class="btn btn-primary btn-sm" name="difference" value="+1">+</button>
+                </form>
+            </td>
             <td>
                 <a class="link-primary" th:href="@{'/products/' + ${p.id}}">Info</a>
             </td>
         </tr>
+
         </tbody>
     </table>
 </div>

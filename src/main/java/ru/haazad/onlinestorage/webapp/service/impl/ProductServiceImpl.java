@@ -32,4 +32,9 @@ public class ProductServiceImpl implements ProductService {
     public void createProduct(Product product) {
         productRepository.addProduct(product);
     }
+
+    @Override
+    public void changeCoast(Long id, Float diff) {
+        productRepository.changeCoast(id, diff);
+    }
 }
