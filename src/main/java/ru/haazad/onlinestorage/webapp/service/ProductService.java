@@ -13,4 +13,6 @@ public interface ProductService {
     Product findProductById(Long id);
 
     void createProduct(Product product);
+
+    void changeCoast(Long id, Float diff);
 }
