@@ -12,7 +12,6 @@ import java.util.Collections;
 import java.util.List;
 
 @Component
-@Primary
 public class ProductRepositoryImpl implements ProductRepository {
     private List<Product> productList;
 
@@ -42,6 +41,12 @@ public class ProductRepositoryImpl implements ProductRepository {
     @Override
     public void changeCoast(Long id, Float diff) {
         Product product = findProduct(id);
-        product.setCost(product.getCost() + diff);
+        product.setCoast(product.getCoast() + diff);
+    }
+
+    @Override
+    public void deleteProductById(Long id) {
+        Product product = findProduct(id);
+        productList.remove(product);
     }
 }

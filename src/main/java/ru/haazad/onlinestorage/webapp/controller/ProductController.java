@@ -20,9 +20,12 @@ public class ProductController {
     }
 
     @GetMapping("/products")
-    public String showProductsPage(Model model) {
-        model.addAttribute("products", productService.findAllProduct());
-        return "products";
+    public String showProductsPage(Model model, @RequestParam(required = false) Long productId) {
+        if (productId == null) {
+            model.addAttribute("products", productService.findAllProduct());
+            return "products";
+        }
+        return showProduct(model, productId);
     }
 
     @PostMapping("/products")
@@ -35,5 +38,11 @@ public class ProductController {
     private String showProduct(Model model, @PathVariable Long id) {
         model.addAttribute("product", productService.findProductById(id));
         return "product";
+    }
+
+    @PostMapping("/products/delete")
+    public String deleteProduct(@RequestParam Long productId) {
+        productService.deleteProductById(productId);
+        return "redirect:/products";
     }
 }

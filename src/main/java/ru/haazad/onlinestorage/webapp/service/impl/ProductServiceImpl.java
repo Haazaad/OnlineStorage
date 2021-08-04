@@ -37,4 +37,9 @@ public class ProductServiceImpl implements ProductService {
     public void changeCoast(Long id, Float diff) {
         productRepository.changeCoast(id, diff);
     }
+
+    @Override
+    public void deleteProductById(Long id) {
+        productRepository.deleteProductById(id);
+    }
 }
