@@ -34,8 +34,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void changeCoast(Long id, Float diff) {
-        productRepository.changeCoast(id, diff);
+    public void changePrice(Long id, Float diff) {
+        productRepository.changePrice(id, diff);
     }
 
     @Override

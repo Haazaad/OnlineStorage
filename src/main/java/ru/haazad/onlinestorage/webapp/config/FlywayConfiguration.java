@@ -1,21 +1,23 @@
 package ru.haazad.onlinestorage.webapp.config;
 
 import org.flywaydb.core.Flyway;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class FlywayConfiguration {
-    private DatabaseConfiguration databaseConfiguration;
+    @Value("${db.url}")
+    private String dbUrl;
 
-    @Autowired
-    public FlywayConfiguration(DatabaseConfiguration databaseConfiguration) {
-        this.databaseConfiguration = databaseConfiguration;
-    }
+    @Value("${db.user}")
+    private String dbUser;
+
+    @Value("${db.password}")
+    private String dbPassword;
 
     public void flywayMigrate() {
         Flyway flyway = Flyway.configure()
-                .dataSource(databaseConfiguration.getDbUrl(), databaseConfiguration.getDbUser(), databaseConfiguration.getDbPassword())
+                .dataSource(dbUrl, dbUser, dbPassword)
                 .load();
         flyway.migrate();
     }

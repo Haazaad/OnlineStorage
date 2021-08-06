@@ -8,8 +8,6 @@ import ru.haazad.onlinestorage.webapp.config.DatabaseConnection;
 import ru.haazad.onlinestorage.webapp.model.Product;
 import ru.haazad.onlinestorage.webapp.repository.ProductRepository;
 
-import javax.persistence.Query;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,7 +28,7 @@ public class ProductRepositoryDao implements ProductRepository {
             session.beginTransaction();
             List<Product> productList = session.createQuery("from Product").getResultList();
             session.getTransaction().commit();
-            return Collections.unmodifiableList(productList.stream().sorted(Comparator.comparing(Product::getId)).collect(Collectors.toList()));
+            return productList.stream().sorted(Comparator.comparing(Product::getId)).collect(Collectors.toUnmodifiableList());
         }
     }
 
@@ -38,9 +36,9 @@ public class ProductRepositoryDao implements ProductRepository {
     public Product findProduct(Long id) {
         try (Session session = databaseConnection.getFactory().getCurrentSession()) {
             session.beginTransaction();
-            Query query = session.createQuery("select p from Product p where p.id = :id");
-            query.setParameter("id", id);
-            Product product = (Product) query.getSingleResult();
+            Product product = (Product) session.createQuery("select p from Product p where p.id = :id")
+                    .setParameter("id", id)
+                    .getSingleResult();
             session.getTransaction().commit();
             return product;
         }
@@ -56,13 +54,13 @@ public class ProductRepositoryDao implements ProductRepository {
     }
 
     @Override
-    public void changeCoast(Long id, Float diff) {
+    public void changePrice(Long id, Float diff) {
         try (Session session = databaseConnection.getFactory().getCurrentSession()) {
             session.beginTransaction();
-            Query query = session.createQuery("update Product p set p.coast = p.coast + :difference where p.id = :id");
-            query.setParameter("difference", diff);
-            query.setParameter("id", id);
-            query.executeUpdate();
+            session.createQuery("update Product p set p.price = p.price + :difference where p.id = :id")
+                    .setParameter("difference", diff)
+                    .setParameter("id", id)
+                    .executeUpdate();
             session.getTransaction().commit();
         }
     }
@@ -71,9 +69,9 @@ public class ProductRepositoryDao implements ProductRepository {
     public void deleteProductById(Long id) {
         try (Session session = databaseConnection.getFactory().getCurrentSession()) {
             session.beginTransaction();
-            Query query = session.createQuery("delete Product p where p.id = :id");
-            query.setParameter("id", id);
-            query.executeUpdate();
+            session.createQuery("delete Product p where p.id = :id")
+                    .setParameter("id", id)
+                    .executeUpdate();
             session.getTransaction().commit();
         }
     }

@@ -38,7 +38,7 @@
     <h2>Product information</h2>
     <h3 th:text="${'id: ' + product.id}"></h3>
     <h3 th:text="${'title: ' + product.title}"></h3>
-    <h3 th:text="${'coast: ' + product.coast}"></h3>
+    <h3 th:text="${'coast: ' + product.price}"></h3>
     <form method="post" th:action="@{'/products/delete'}">
         <input type="hidden" name="productId" th:value="${product.id}">
         <button type="submit" class="btn btn-primary btn-sm">Delete</button>

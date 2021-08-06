@@ -1,6 +1,5 @@
 package ru.haazad.onlinestorage.webapp.repository.impl;
 
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 import ru.haazad.onlinestorage.webapp.model.Product;
 import ru.haazad.onlinestorage.webapp.repository.ProductRepository;
@@ -39,9 +38,9 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public void changeCoast(Long id, Float diff) {
+    public void changePrice(Long id, Float diff) {
         Product product = findProduct(id);
-        product.setCoast(product.getCoast() + diff);
+        product.setPrice(product.getPrice() + diff);
     }
 
     @Override
