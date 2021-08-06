@@ -24,8 +24,8 @@
                     </li>
                 </ul>
             </div>
-            <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search product" aria-label="Search">
+            <form method="get" th:action="@{'/products'}" class="d-flex">
+                <input class="form-control me-2" type="number" placeholder="Search product" name="productId" aria-label="Search">
                 <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
         </div>
@@ -42,6 +42,7 @@
             <th scope="col">title</th>
             <th scope="col">coast</th>
             <th scope="col"></th>
+            <th scope="col"></th>
         </tr>
         </thead>
         <tbody>
@@ -53,7 +54,7 @@
                     <input type="hidden" name="productId" th:value="${p.id}">
                     <button type="submit" class="btn btn-primary btn-sm" name="difference" value="-1">-</button>
                 </form>
-                <a th:text="${p.cost}"></a>
+                <a th:text="${p.coast}"></a>
                 <form method="post" th:action="@{'/products'}" style="margin-left: 10px">
                     <input type="hidden" name="productId" th:value="${p.id}">
                     <button type="submit" class="btn btn-primary btn-sm" name="difference" value="+1">+</button>
@@ -61,6 +62,12 @@
             </td>
             <td>
                 <a class="link-primary" th:href="@{'/products/' + ${p.id}}">Info</a>
+            </td>
+            <td>
+                <form method="post" th:action="@{'/products/delete'}">
+                    <input type="hidden" name="productId" th:value="${p.id}">
+                    <button type="submit" class="btn btn-primary btn-sm">Delete</button>
+                </form>
             </td>
         </tr>
 

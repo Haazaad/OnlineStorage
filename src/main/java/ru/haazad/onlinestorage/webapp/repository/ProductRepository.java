@@ -15,4 +15,6 @@ public interface ProductRepository {
     void addProduct(Product product);
 
     void changeCoast(Long id, Float diff);
+
+    void deleteProductById(Long id);
 }

@@ -1,14 +1,33 @@
 package ru.haazad.onlinestorage.webapp.model;
 
-public class Product {
-    private Long id;
-    private String title;
-    private Float cost;
+import javax.persistence.*;
 
-    public Product(Long id, String title, Float cost) {
+@Entity
+@Table(name = "products")
+public class Product {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "product_id")
+    private Long id;
+
+    @Column(name = "title")
+    private String title;
+
+    @Column(name = "coast")
+    private Float coast;
+
+    public Product() {
+    }
+
+    public Product(String title, Float coast) {
+        this.title = title;
+        this.coast = coast;
+    }
+
+    public Product(Long id, String title, Float coast) {
         this.id = id;
         this.title = title;
-        this.cost = cost;
+        this.coast = coast;
     }
 
     public Long getId() {
@@ -27,11 +46,11 @@ public class Product {
         this.title = title;
     }
 
-    public Float getCost() {
-        return cost;
+    public Float getCoast() {
+        return coast;
     }
 
-    public void setCost(Float cost) {
-        this.cost = cost;
+    public void setCoast(Float cost) {
+        this.coast = cost;
     }
 }

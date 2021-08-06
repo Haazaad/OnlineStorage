@@ -24,8 +24,8 @@ public class CreateProductController {
     }
 
     @PostMapping("/products/create")
-    public String createProduct(@RequestParam Long productId, @RequestParam String productTitle, @RequestParam Float productCoast) {
-        Product product = new Product(productId, productTitle, productCoast);
+    public String createProduct(@RequestParam String productTitle, @RequestParam Float productCoast) {
+        Product product = new Product(productTitle, productCoast);
         productService.createProduct(product);
         return "redirect:/products";
     }

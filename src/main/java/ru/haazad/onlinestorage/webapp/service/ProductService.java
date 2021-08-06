@@ -15,4 +15,6 @@ public interface ProductService {
     void createProduct(Product product);
 
     void changeCoast(Long id, Float diff);
+
+    void deleteProductById(Long id);
 }
