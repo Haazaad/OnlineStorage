@@ -13,21 +13,21 @@ public class Product {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "coast")
-    private Float coast;
+    @Column(name = "price")
+    private Float price;
 
     public Product() {
     }
 
-    public Product(String title, Float coast) {
+    public Product(String title, Float price) {
         this.title = title;
-        this.coast = coast;
+        this.price = price;
     }
 
-    public Product(Long id, String title, Float coast) {
+    public Product(Long id, String title, Float price) {
         this.id = id;
         this.title = title;
-        this.coast = coast;
+        this.price = price;
     }
 
     public Long getId() {
@@ -46,11 +46,11 @@ public class Product {
         this.title = title;
     }
 
-    public Float getCoast() {
-        return coast;
+    public Float getPrice() {
+        return price;
     }
 
-    public void setCoast(Float cost) {
-        this.coast = cost;
+    public void setPrice(Float cost) {
+        this.price = cost;
     }
 }

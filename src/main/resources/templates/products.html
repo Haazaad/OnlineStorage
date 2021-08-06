@@ -40,7 +40,7 @@
         <tr>
             <th scope="col">id</th>
             <th scope="col">title</th>
-            <th scope="col">coast</th>
+            <th scope="col">price</th>
             <th scope="col"></th>
             <th scope="col"></th>
         </tr>
@@ -54,7 +54,7 @@
                     <input type="hidden" name="productId" th:value="${p.id}">
                     <button type="submit" class="btn btn-primary btn-sm" name="difference" value="-1">-</button>
                 </form>
-                <a th:text="${p.coast}"></a>
+                <a th:text="${p.price}"></a>
                 <form method="post" th:action="@{'/products'}" style="margin-left: 10px">
                     <input type="hidden" name="productId" th:value="${p.id}">
                     <button type="submit" class="btn btn-primary btn-sm" name="difference" value="+1">+</button>

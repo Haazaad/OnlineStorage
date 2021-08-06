@@ -29,8 +29,8 @@ public class ProductController {
     }
 
     @PostMapping("/products")
-    public String changeCoastProduct(@RequestParam Long productId, @RequestParam Float difference) {
-        productService.changeCoast(productId, difference);
+    public String changeProductPrice(@RequestParam Long productId, @RequestParam Float difference) {
+        productService.changePrice(productId, difference);
         return "redirect:/products";
     }
 
