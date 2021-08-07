@@ -6,13 +6,13 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class FlywayConfiguration {
-    @Value("${db.url}")
+    @Value("${spring.datasource.url}")
     private String dbUrl;
 
-    @Value("${db.user}")
+    @Value("${spring.datasource.username}")
     private String dbUser;
 
-    @Value("${db.password}")
+    @Value("${spring.datasource.password}")
     private String dbPassword;
 
     public void flywayMigrate() {

@@ -3,7 +3,8 @@ server:
   servlet:
     context-path: /webapp
 
-db:
-  url: jdbc:postgresql://localhost:5435/storage
-  user: postgres
-  password: postgrespass
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5435/storage
+    username: postgres
+    password: postgrespass
