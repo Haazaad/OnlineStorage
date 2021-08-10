@@ -1,20 +1,23 @@
 package ru.haazad.onlinestorage.webapp.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "orders")
-public class Order {
+public class Order implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id")
     private Long id;
 
+    @Id
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Id
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;

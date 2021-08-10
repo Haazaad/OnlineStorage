@@ -17,8 +17,8 @@ public class Product {
     @Column(name = "price")
     private Float price;
 
-//    @OneToMany(mappedBy = "product")
-//    private List<Order> orderList;
+    @OneToMany(mappedBy = "product")
+    private List<Order> orderList;
 
     public Product() {
     }
@@ -58,13 +58,13 @@ public class Product {
         this.price = cost;
     }
 
-//    public List<Order> getOrderList() {
-//        return orderList;
-//    }
-//
-//    public void setOrderList(List<Order> orderList) {
-//        this.orderList = orderList;
-//    }
+    public List<Order> getOrderList() {
+        return orderList;
+    }
+
+    public void setOrderList(List<Order> orderList) {
+        this.orderList = orderList;
+    }
 
     @Override
     public String toString() {
@@ -72,7 +72,7 @@ public class Product {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", price=" + price +
-//                ", orderList=" + orderList +
+                ", orderList=" + orderList +
                 '}';
     }
 }
