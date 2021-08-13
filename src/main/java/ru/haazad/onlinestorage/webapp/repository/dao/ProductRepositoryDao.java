@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @Component
 @Primary
 public class ProductRepositoryDao implements ProductRepository {
-    private DatabaseConnection databaseConnection;
+    private final DatabaseConnection databaseConnection;
 
     @Autowired
     public ProductRepositoryDao(DatabaseConnection databaseConnection) {

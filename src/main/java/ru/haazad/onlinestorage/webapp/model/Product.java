@@ -1,6 +1,7 @@
 package ru.haazad.onlinestorage.webapp.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "products")
@@ -15,6 +16,9 @@ public class Product {
 
     @Column(name = "price")
     private Float price;
+
+    @OneToMany(mappedBy = "product")
+    private List<Order> orderList;
 
     public Product() {
     }
@@ -52,5 +56,23 @@ public class Product {
 
     public void setPrice(Float cost) {
         this.price = cost;
+    }
+
+    public List<Order> getOrderList() {
+        return orderList;
+    }
+
+    public void setOrderList(List<Order> orderList) {
+        this.orderList = orderList;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", price=" + price +
+                ", orderList=" + orderList +
+                '}';
     }
 }
