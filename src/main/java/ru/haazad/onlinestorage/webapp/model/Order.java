@@ -8,7 +8,6 @@ import java.io.Serializable;
 public class Order implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id")
     private Long id;
 
@@ -69,16 +68,5 @@ public class Order implements Serializable {
 
     public void setPrice(Float price) {
         this.price = price;
-    }
-
-    @Override
-    public String toString() {
-        return "Order{" +
-                "id=" + id +
-                ", user=" + user +
-                ", product=" + product +
-                ", quantity=" + quantity +
-                ", price=" + price +
-                '}';
     }
 }

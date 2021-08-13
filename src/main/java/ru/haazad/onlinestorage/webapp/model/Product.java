@@ -65,14 +65,4 @@ public class Product {
     public void setOrderList(List<Order> orderList) {
         this.orderList = orderList;
     }
-
-    @Override
-    public String toString() {
-        return "Product{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", price=" + price +
-                ", orderList=" + orderList +
-                '}';
-    }
 }

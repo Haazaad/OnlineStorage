@@ -2,7 +2,7 @@ package ru.haazad.onlinestorage.webapp.repository.dao;
 
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import ru.haazad.onlinestorage.webapp.config.DatabaseConnection;
 import ru.haazad.onlinestorage.webapp.model.Order;
 import ru.haazad.onlinestorage.webapp.model.User;
@@ -13,7 +13,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Component
+@Repository
 public class OrderRepositoryDao implements OrderRepository {
 
     private final DatabaseConnection databaseConnection;
@@ -38,7 +38,7 @@ public class OrderRepositoryDao implements OrderRepository {
     public List<Order> getOrdersByUserId(Long id) {
         try (Session session = databaseConnection.getFactory().getCurrentSession()){
             session.beginTransaction();
-            List<Order> orders = session.createQuery("from Order o join fetch o.user where o.user = :id")
+            List<Order> orders = session.createQuery("from Order o join fetch o.user where o.user.id = :id")
                     .setParameter("id", id)
                     .getResultList();
             System.out.println(orders);

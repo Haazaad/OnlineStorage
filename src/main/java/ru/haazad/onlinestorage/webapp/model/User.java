@@ -44,13 +44,4 @@ public class User {
     public void setOrderList(List<Order> orderList) {
         this.orderList = orderList;
     }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", orderList=" + orderList +
-                '}';
-    }
 }

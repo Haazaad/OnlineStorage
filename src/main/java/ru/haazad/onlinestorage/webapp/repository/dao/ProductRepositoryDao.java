@@ -4,6 +4,7 @@ import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import ru.haazad.onlinestorage.webapp.config.DatabaseConnection;
 import ru.haazad.onlinestorage.webapp.model.Product;
 import ru.haazad.onlinestorage.webapp.repository.ProductRepository;
@@ -12,7 +13,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Component
+@Repository
 @Primary
 public class ProductRepositoryDao implements ProductRepository {
     private final DatabaseConnection databaseConnection;
