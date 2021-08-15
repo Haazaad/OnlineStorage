@@ -1,20 +1,14 @@
 package ru.haazad.onlinestorage.webapp.repository;
 
-import org.springframework.stereotype.Component;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 import ru.haazad.onlinestorage.webapp.model.Product;
 
 import java.util.List;
 
-@Component
-public interface ProductRepository {
-
-    List<Product> findAllProduct();
-
-    Product findProduct(Long id);
-
-    void addProduct(Product product);
-
-    void changePrice(Long id, Float diff);
-
-    void deleteProductById(Long id);
+@Repository
+public interface ProductRepository extends JpaRepository<Product, Long> {
+    List<Product> findAllByPriceBetween(Float minPrice, Float maxPrice);
+    List<Product> findAllByPriceLessThanEqual(Float maxPrice);
+    List<Product> findAllByPriceGreaterThanEqual(Float minPrice);
 }

@@ -1,20 +1,20 @@
 package ru.haazad.onlinestorage.webapp.service;
 
 import org.springframework.stereotype.Service;
-import ru.haazad.onlinestorage.webapp.model.Product;
+import ru.haazad.onlinestorage.webapp.dto.ProductDto;
 
 import java.util.List;
 
 @Service
 public interface ProductService {
 
-    List<Product> findAllProduct();
+    List<ProductDto> findAllProduct();
 
-    Product findProductById(Long id);
+    ProductDto findProductById(Long id);
 
-    void createProduct(Product product);
+    ProductDto createProduct(ProductDto product);
 
-    void changePrice(Long id, Float diff);
+    List<ProductDto> deleteProductById(Long id);
 
-    void deleteProductById(Long id);
+    List<ProductDto> filterProduct(Float minPrice, Float maxPrice) throws Exception;
 }
