@@ -1,48 +1,43 @@
 package ru.haazad.onlinestorage.webapp.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+import ru.haazad.onlinestorage.webapp.dto.ProductDto;
 import ru.haazad.onlinestorage.webapp.service.ProductService;
 
-@Controller
+import java.util.List;
+
+@RestController
+@RequiredArgsConstructor
 public class ProductController {
 
-    private ProductService productService;
-
-    @Autowired
-    public ProductController(ProductService productService) {
-        this.productService = productService;
-    }
+    private final ProductService productService;
 
     @GetMapping("/products")
-    public String showProductsPage(Model model, @RequestParam(required = false) Long productId) {
-        if (productId == null) {
-            model.addAttribute("products", productService.findAllProduct());
-            return "products";
-        }
-        return showProduct(model, productId);
-    }
-
-    @PostMapping("/products")
-    public String changeProductPrice(@RequestParam Long productId, @RequestParam Float difference) {
-        productService.changePrice(productId, difference);
-        return "redirect:/products";
+    public List<ProductDto> showProductsPage() {
+        return productService.findAllProduct();
     }
 
     @GetMapping("/products/{id}")
-    private String showProduct(Model model, @PathVariable Long id) {
-        model.addAttribute("product", productService.findProductById(id));
-        return "product";
+    public ProductDto showProduct(@PathVariable Long id) {
+        return productService.findProductById(id);
     }
 
-    @PostMapping("/products/delete")
-    public String deleteProduct(@RequestParam Long productId) {
-        productService.deleteProductById(productId);
-        return "redirect:/products";
+    @PostMapping("/products")
+    public ProductDto createProduct(@RequestBody ProductDto product) {
+        return productService.createProduct(product);
     }
+
+    @GetMapping("/products/delete/{id}")
+    public List<ProductDto> deleteProductById(@PathVariable Long id) {
+        return productService.deleteProductById(id);
+    }
+
+    // Как изменить status code ответа, в случае отсутсвия обязательных параметров запроса?
+    // Также хотелось бы узнать как вывести исключение в ответ на запрос.
+    @GetMapping("/products/filter")
+    public List<ProductDto> filterProduct(@RequestParam(required = false) Float minPrice, @RequestParam(required = false) Float maxPrice) throws Exception {
+        return productService.filterProduct(minPrice, maxPrice);
+    }
+
 }
