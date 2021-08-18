@@ -1,13 +1,13 @@
 package ru.haazad.onlinestorage.webapp.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import ru.haazad.onlinestorage.webapp.dto.ProductDto;
 import ru.haazad.onlinestorage.webapp.model.Product;
 import ru.haazad.onlinestorage.webapp.repository.ProductRepository;
 import ru.haazad.onlinestorage.webapp.service.ProductService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -16,51 +16,41 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
 
     @Override
-    public List<ProductDto> findAllProduct() {
-        List<Product> productList = productRepository.findAll();
-        return createProductDtoList(productList);
+    public List<Product> findAllProduct() {
+        return productRepository.findAll();
     }
 
     @Override
-    public ProductDto findProductById(Long id) {
-        return new ProductDto(productRepository.findById(id).get());
+    public Page<Product> findAllProduct(int pageIndex, int pageSize) {
+        return productRepository.findAll(PageRequest.of(pageIndex, pageSize));
     }
 
     @Override
-    public ProductDto createProduct(ProductDto productDto) {
-        Product product = new Product();
-        product.setTitle(productDto.getTitle());
-        product.setPrice(productDto.getPrice());
+    public Product findProductById(Long id) {
+        return productRepository.findById(id).get();
+    }
+
+    @Override
+    public Product createProduct(Product product) {
         productRepository.save(product);
-        return new ProductDto(product);
+        return product;
     }
 
     @Override
-    public List<ProductDto> deleteProductById(Long id) {
+    public void deleteProductById(Long id) {
         productRepository.deleteById(id);
-        return findAllProduct();
     }
 
-    // Как корректно пробросить исключение в случае отсутсвия обязательных параметров?
     @Override
-    public List<ProductDto> filterProduct(Float minPrice, Float maxPrice) throws IllegalArgumentException{
+    public List<Product> filterProductByPrice(Float minPrice, Float maxPrice) {
         if (minPrice == null) {
-            return createProductDtoList(productRepository.findAllByPriceLessThanEqual(maxPrice));
+            return productRepository.findAllByPriceLessThanEqual(maxPrice);
+        } else if (maxPrice == null) {
+            return productRepository.findAllByPriceGreaterThanEqual(minPrice);
+        } else {
+            return productRepository.findAllByPriceBetween(minPrice, maxPrice);
         }
-        if (maxPrice == null) {
-            return createProductDtoList(productRepository.findAllByPriceGreaterThanEqual(minPrice));
-        }
-        if (minPrice != null && maxPrice != null) {
-            return createProductDtoList(productRepository.findAllByPriceBetween(minPrice, maxPrice));
-        }
-        throw new IllegalArgumentException("Required parameters for the filter are not specified");
     }
 
-    private List<ProductDto> createProductDtoList(List<Product> productList) {
-        List<ProductDto> productDtoList = new ArrayList<>();
-        for (Product p: productList) {
-            productDtoList.add(new ProductDto(p));
-        }
-        return productDtoList;
-    }
+
 }
