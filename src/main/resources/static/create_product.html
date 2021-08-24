@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Products</title>
@@ -38,45 +38,14 @@
 <!-- End navigation panel -->
 
 <!-- Start main content -->
-<div class="container" ng-controller="productsController">
-    <table class="table">
-        <thead>
-        <tr>
-            <th scope="col">id</th>
-            <th scope="col">title</th>
-            <th scope="col">price</th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="p in products">
-            <td>{{ p.id }}</td>
-            <td>{{p.title}}</td>
-            <td>{{p.price}}</td>
-            <td>
-                <button class="btn btn-primary btn-sm" ng-click="deleteProduct(p)"
-                        style="color: red; background-color: #e3f2fd" title="Delete product">&#10006;
-                </button>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-    <div class="container">
-        <nav aria-label="Page navigation">
-            <ul class="pagination">
-                <li class="page-item" ng-repeat="pageIndex in paginationArray">
-                    <button class="page-link" style="background-color: #e3f2fd;" ng-click="getProducts(pageIndex)">
-                        {{ pageIndex }}
-                    </button>
-                </li>
-            </ul>
-        </nav>
-    </div>
-    <div class="container">
-        <button class="btn btn-primary" style="background-color: #e3f2fd;">
-            <a style="color: black; text-decoration: none" ng-href="/webapp/create_product.html">Create new Product</a>
-        </button>
-    </div>
+<div class="container" ng-controller="productsController" style="margin-top: 15px">
+    <form novalidate ng-submit="createNewProduct()">
+        <input class="form-control" type="text" placeholder="Product title" ng-model="product.title">
+        <p></p>
+        <input class="form-control" type="number" placeholder="Product price" ng-model="product.price">
+        <p></p>
+        <button type="submit" class="btn btn-primary">Create</button>
+    </form>
 </div>
 <!-- End main content -->
 

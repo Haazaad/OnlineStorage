@@ -9,6 +9,7 @@ import ru.haazad.onlinestorage.webapp.repository.ProductRepository;
 import ru.haazad.onlinestorage.webapp.service.ProductService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -26,8 +27,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product findProductById(Long id) {
-        return productRepository.findById(id).get();
+    public Optional<Product> findProductById(Long id) {
+        return productRepository.findById(id);
     }
 
     @Override
@@ -39,6 +40,14 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void deleteProductById(Long id) {
         productRepository.deleteById(id);
+    }
+
+    @Override
+    public void modifyProduct(Product product) {
+        Product findProduct = findProductById(product.getId()).get();
+        findProduct.setTitle(product.getTitle());
+        findProduct.setPrice(product.getPrice());
+        productRepository.save(findProduct);
     }
 
     @Override
