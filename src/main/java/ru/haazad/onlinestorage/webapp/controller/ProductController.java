@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import ru.haazad.onlinestorage.webapp.dto.ProductDto;
+import ru.haazad.onlinestorage.webapp.exceptions.ResourceNotFoundException;
 import ru.haazad.onlinestorage.webapp.model.Product;
 import ru.haazad.onlinestorage.webapp.service.ProductService;
 
@@ -11,13 +12,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@RequestMapping("/api/v1/products")
 @RequiredArgsConstructor
 public class ProductController {
     private static final int PAGE_SIZE = 10;
 
     private final ProductService productService;
 
-    @GetMapping("/products")
+    @GetMapping
     public Page<ProductDto> showAllProducts(@RequestParam(defaultValue = "1", name = "p") int pageIndex) {
         if (pageIndex < 1) {
             pageIndex = 1;
@@ -25,25 +27,29 @@ public class ProductController {
         return productService.findAllProduct(pageIndex - 1, PAGE_SIZE).map(ProductDto::new);
     }
 
-    @GetMapping("/products/{id}")
+    @GetMapping("/{id}")
     public ProductDto showProduct(@PathVariable Long id) {
-        return new ProductDto(productService.findProductById(id));
+       return new ProductDto(productService.findProductById(id).orElseThrow(() -> new ResourceNotFoundException("Product id = " + id + " not found")));
     }
 
-    @PostMapping("/products")
+    @PostMapping
     public ProductDto createProduct(@RequestBody ProductDto productDto) {
-        Product product = new Product();
-        product.setTitle(productDto.getTitle());
-        product.setPrice(productDto.getPrice());
-        return new ProductDto(productService.createProduct(product));
+        return new ProductDto(productService.createProduct(setProduct(productDto)));
     }
 
-    @GetMapping("/products/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public void deleteProductById(@PathVariable Long id) {
         productService.deleteProductById(id);
     }
 
-    @GetMapping("/products/filter")
+    @PutMapping("/{id}")
+    public void modifyProduct(@PathVariable Long id, @RequestBody ProductDto productDto) {
+        Product product = setProduct(productDto);
+        product.setId(id);
+        productService.modifyProduct(product);
+    }
+
+    @GetMapping("/filter")
     public List<ProductDto> filterProductByPrice(@RequestParam(required = false) Float minPrice, @RequestParam(required = false) Float maxPrice) {
         if (minPrice != null || maxPrice != null) {
             return productService.filterProductByPrice(minPrice, maxPrice).stream().map(ProductDto::new).collect(Collectors.toList());
@@ -51,4 +57,10 @@ public class ProductController {
         return productService.findAllProduct().stream().map(ProductDto::new).collect(Collectors.toList());
     }
 
+    private Product setProduct(ProductDto productDto) {
+        Product product = new Product();
+        product.setTitle(productDto.getTitle());
+        product.setPrice(productDto.getPrice());
+        return product;
+    }
 }
