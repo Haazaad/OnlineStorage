@@ -1,0 +1,53 @@
+<div class="container">
+    <p></p>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">id</th>
+            <th scope="col">title</th>
+            <th scope="col">price</th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="p in products">
+            <td>{{ p.id }}</td>
+            <td>{{ p.title }}</td>
+            <td>{{ p.price }}</td>
+            <td>
+                <button class="btn btn-primary btn-sm" style="background-color: #e3f2fd; color: black"
+                        ng-click="moveToEditProduct(p.id)">Edit
+                </button>
+            </td>
+            <td>
+                <button class="btn btn-primary btn-sm" style="background-color: #e3f2fd; color: black"
+                        ng-click="addProductInCart(p)">Add to cart
+                </button>
+            </td>
+            <td>
+                <button class="btn btn-primary btn-sm" ng-click="deleteProduct(p.id)"
+                        style="color: red; background-color: #e3f2fd" title="Delete product">&#10006;
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="container">
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <li class="page-item" ng-repeat="pageIndex in paginationArray">
+                    <button class="page-link" style="background-color: #e3f2fd;" ng-click="getProducts(pageIndex)">
+                        {{ pageIndex }}
+                    </button>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <div class="container">
+        <button class="btn btn-primary" style="background-color: #e3f2fd; color: black"
+                ng-click="moveToCreateNewProduct()">Create new Product
+        </button>
+    </div>
+</div>

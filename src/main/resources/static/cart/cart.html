@@ -1,0 +1,26 @@
+<div class="container">
+    <p></p>
+    <h3>Cart</h3>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Product id</th>
+            <th scope="col">Product title</th>
+            <th scope="col">Product price</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="p in productsInCart">
+            <td>{{ p.id }}</td>
+            <td>{{ p.title }}</td>
+            <td>{{ p.price }}</td>
+            <td>
+                <button class="btn btn-primary btn-sm" ng-click="deleteProductFromCart(p.id)"
+                        style="color: red; background-color: #e3f2fd" title="Delete product">&#10006;
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

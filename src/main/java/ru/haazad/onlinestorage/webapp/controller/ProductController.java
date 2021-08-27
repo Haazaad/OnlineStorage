@@ -42,10 +42,10 @@ public class ProductController {
         productService.deleteProductById(id);
     }
 
-    @PutMapping("/{id}")
-    public void modifyProduct(@PathVariable Long id, @RequestBody ProductDto productDto) {
+    @PutMapping
+    public void modifyProduct(@RequestBody ProductDto productDto) {
         Product product = setProduct(productDto);
-        product.setId(id);
+        product.setId(productDto.getId());
         productService.modifyProduct(product);
     }
 

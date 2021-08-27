@@ -1,0 +1,16 @@
+<div class="container">
+    <p></p>
+    <h3>Product information</h3>
+    <p></p>
+    <div class="container">
+        Product id: {{ view_product.id }}
+        <p></p>
+        Product title: {{ view_product.title }}
+        <p></p>
+        Product price: {{ view_product.price }}
+    </div>
+    <p></p>
+    <button class="btn btn-primary btn-sm" style="background-color: #e3f2fd; color: black"
+            ng-click="moveToEditProduct(view_product.id)">Edit
+    </button>
+</div>
