@@ -1,4 +1,4 @@
-package ru.haazad.onlinestorage.webapp.model;
+package ru.haazad.onlinestorage.webapp.models;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

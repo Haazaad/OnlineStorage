@@ -1,12 +1,12 @@
-package ru.haazad.onlinestorage.webapp.service.impl;
+package ru.haazad.onlinestorage.webapp.services.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import ru.haazad.onlinestorage.webapp.model.Product;
-import ru.haazad.onlinestorage.webapp.repository.ProductRepository;
-import ru.haazad.onlinestorage.webapp.service.ProductService;
+import ru.haazad.onlinestorage.webapp.models.Product;
+import ru.haazad.onlinestorage.webapp.repositories.ProductRepository;
+import ru.haazad.onlinestorage.webapp.services.ProductService;
 
 import java.util.List;
 import java.util.Optional;

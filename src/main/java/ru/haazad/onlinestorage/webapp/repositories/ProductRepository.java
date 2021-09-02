@@ -1,8 +1,8 @@
-package ru.haazad.onlinestorage.webapp.repository;
+package ru.haazad.onlinestorage.webapp.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import ru.haazad.onlinestorage.webapp.model.Product;
+import ru.haazad.onlinestorage.webapp.models.Product;
 
 import java.util.List;
 

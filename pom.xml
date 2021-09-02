@@ -18,6 +18,8 @@
 		<lombok.version>1.18.20</lombok.version>
 		<postgresql.version>42.2.23</postgresql.version>
 		<flayway.version>7.12.1</flayway.version>
+		<validator.version>6.1.5.Final</validator.version>
+		<jjwt.version>0.9.1</jjwt.version>
 		<project.version>0.0.1</project.version>
 		<java.version>11</java.version>
 	</properties>
@@ -56,6 +58,24 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate.validator</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>${validator.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+			<version>${jjwt.version}</version>
 		</dependency>
 
 		<dependency>
