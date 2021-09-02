@@ -1,8 +1,8 @@
-package ru.haazad.onlinestorage.webapp.dto;
+package ru.haazad.onlinestorage.webapp.dtos;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.haazad.onlinestorage.webapp.model.Product;
+import ru.haazad.onlinestorage.webapp.models.Product;
 
 @Data
 @NoArgsConstructor

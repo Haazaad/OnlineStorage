@@ -1,10 +1,9 @@
-package ru.haazad.onlinestorage.webapp.repository.impl;
+package ru.haazad.onlinestorage.webapp.repositories.impl;
 
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
-import ru.haazad.onlinestorage.webapp.exceptions.ResourceNotFoundException;
-import ru.haazad.onlinestorage.webapp.model.Product;
-import ru.haazad.onlinestorage.webapp.repository.CartRepository;
+import ru.haazad.onlinestorage.webapp.models.Product;
+import ru.haazad.onlinestorage.webapp.repositories.CartRepository;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;

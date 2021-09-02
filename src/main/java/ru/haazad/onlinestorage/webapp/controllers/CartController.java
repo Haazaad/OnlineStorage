@@ -1,16 +1,16 @@
-package ru.haazad.onlinestorage.webapp.controller;
+package ru.haazad.onlinestorage.webapp.controllers;
 
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import ru.haazad.onlinestorage.webapp.dto.ProductDto;
-import ru.haazad.onlinestorage.webapp.model.Product;
-import ru.haazad.onlinestorage.webapp.service.CartService;
+import ru.haazad.onlinestorage.webapp.dtos.ProductDto;
+import ru.haazad.onlinestorage.webapp.models.Product;
+import ru.haazad.onlinestorage.webapp.services.CartService;
 
 import java.util.List;
 
+// todo переписать
 @RestController
-@RequestMapping("/api/v1/carts")
+@RequestMapping("/api/v1/cart")
 @RequiredArgsConstructor
 public class CartController {
 

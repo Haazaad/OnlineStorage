@@ -1,12 +1,12 @@
-package ru.haazad.onlinestorage.webapp.controller;
+package ru.haazad.onlinestorage.webapp.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
-import ru.haazad.onlinestorage.webapp.dto.ProductDto;
+import ru.haazad.onlinestorage.webapp.dtos.ProductDto;
 import ru.haazad.onlinestorage.webapp.exceptions.ResourceNotFoundException;
-import ru.haazad.onlinestorage.webapp.model.Product;
-import ru.haazad.onlinestorage.webapp.service.ProductService;
+import ru.haazad.onlinestorage.webapp.models.Product;
+import ru.haazad.onlinestorage.webapp.services.ProductService;
 
 import java.util.List;
 import java.util.stream.Collectors;

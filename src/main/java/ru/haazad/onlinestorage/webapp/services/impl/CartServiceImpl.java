@@ -1,10 +1,10 @@
-package ru.haazad.onlinestorage.webapp.service.impl;
+package ru.haazad.onlinestorage.webapp.services.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.haazad.onlinestorage.webapp.model.Product;
-import ru.haazad.onlinestorage.webapp.repository.CartRepository;
-import ru.haazad.onlinestorage.webapp.service.CartService;
+import ru.haazad.onlinestorage.webapp.models.Product;
+import ru.haazad.onlinestorage.webapp.repositories.CartRepository;
+import ru.haazad.onlinestorage.webapp.services.CartService;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
-package ru.haazad.onlinestorage.webapp.service;
+package ru.haazad.onlinestorage.webapp.services;
 
 import org.springframework.stereotype.Service;
-import ru.haazad.onlinestorage.webapp.model.Product;
+import ru.haazad.onlinestorage.webapp.models.Product;
 
 import java.util.List;
 
