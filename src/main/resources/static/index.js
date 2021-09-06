@@ -29,6 +29,10 @@
                 templateUrl: 'cart/cart.html',
                 controller: 'cartController'
             })
+            .when('/create_new_user', {
+                templateUrl: 'users/create_user.html',
+                controller: 'createUserController'
+            })
             .otherwise({
                 redirectTo: '/'
             });
