@@ -74,6 +74,7 @@ angular.module('storage').controller('indexController', function ($rootScope, $h
         if ($scope.user.password) {
             $scope.user.password = null;
         }
+        $location.path("/");
     };
 
     $scope.clearUser = function () {
