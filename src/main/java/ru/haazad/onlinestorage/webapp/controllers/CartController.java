@@ -10,7 +10,7 @@ import java.util.List;
 
 // todo переписать
 @RestController
-@RequestMapping("/api/v1/cart")
+@RequestMapping("/api/v1/carts")
 @RequiredArgsConstructor
 public class CartController {
 

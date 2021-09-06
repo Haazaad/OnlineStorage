@@ -35,7 +35,6 @@
     }
 
     function run($rootScope, $http, $localStorage) {
-        console.log($localStorage.appUser)
         if ($localStorage.appUser) {
             $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.appUser.token;
         }
