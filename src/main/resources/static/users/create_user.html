@@ -1,0 +1,13 @@
+<form novalidate ng-submit="createNewUser()" style="margin-top: 10px">
+    <input class="form-control" type="text" placeholder="Username" ng-model="new_user.username">
+    <p></p>
+    <input class="form-control" type="password" placeholder="Password" ng-model="new_user.password">
+    <p></p>
+    <input class="form-control" type="password" placeholder="Confirm password" ng-model="password.passwordConfirmation">
+    <p></p>
+    <input class="form-control" type="email" placeholder="Email" ng-model="new_user.email">
+    <p></p>
+    <input class="form-control" type="text" placeholder="User role" ng-model="new_user.role">
+    <p></p>
+    <button type="submit" class="btn btn-primary" style="background-color: #e3f2fd; color: black">Create</button>
+</form>
