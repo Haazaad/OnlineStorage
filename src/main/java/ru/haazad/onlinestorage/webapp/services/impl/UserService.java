@@ -16,25 +16,23 @@ import ru.haazad.onlinestorage.webapp.repositories.UserRepository;
 import javax.transaction.Transactional;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class UserService implements UserDetailsService {
-    private static final String DEFAULT_USER_ROLE = "ROLE_USER";
 
     private final UserRepository userRepository;
     private final RoleService roleService;
     private final BCryptPasswordEncoder encoder;
 
-    public Optional<User> findByUsername(String username) {
-        return userRepository.findByUsername(username);
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(String.format("User %s not found", username)));
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(String.format("User %s not found", username)));
+        User user = findByUsername(username);
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));
     }
 
@@ -48,11 +46,7 @@ public class UserService implements UserDetailsService {
         user.setUsername(userDto.getUsername());
         user.setPassword(encoder.encode(userDto.getPassword()));
         user.setEmail(userDto.getEmail());
-        if (userDto.getRole() == null) {
-            user.setRoles(Collections.singletonList(roleService.findByRoleName(DEFAULT_USER_ROLE)));
-        } else {
-            user.setRoles(Collections.singletonList(roleService.findByRoleName(userDto.getRole())));
-        }
+        user.setRoles(Collections.singletonList(roleService.findByRoleName(userDto.getRole())));
         userRepository.save(user);
     }
 }

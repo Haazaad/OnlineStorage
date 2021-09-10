@@ -1,24 +1,42 @@
-angular.module('storage').controller('cartController', function ($scope, $http, ) {
+angular.module('storage').controller('cartController', function ($scope, $http, $location) {
     const contextPath = 'http://localhost:8888/webapp/api/v1';
 
-    $scope.getProductsInCart = function () {
-        $http.get(contextPath + '/carts')
-            .then(function successCallback (response) {
-                $scope.productsInCart = response.data;
+    $scope.loadCart = function () {
+        $http.get(contextPath + '/cart')
+            .then(function successCallback(response) {
+                console.log(response);
+                $scope.cart = response.data;
             })
     }
 
-    $scope.deleteProductFromCart = function (productId) {
-        $http({
-            url: contextPath + '/carts/' + productId,
-            method: 'DELETE'
-        }).then(function successCallback (response) {
-            alert("Successful delete product from cart")
-            $scope.getProductsInCart();
-        }, function failureCallback(response) {
-            alert(response.data.userMessage);
-        });
+    $scope.incremetItem = function (productId) {
+        $http.get(contextPath + '/cart/add/' + productId)
+            .then(function successCallback(response) {
+                $scope.loadCart();
+            })
     }
 
-    $scope.getProductsInCart();
+    $scope.decrementItem = function (productId) {
+        $http.get(contextPath + '/cart/decrement/' + productId)
+            .then(function successCallback(response) {
+                $scope.loadCart();
+            })
+    }
+
+    $scope.removeItem = function (productId) {
+        $http.get(contextPath + '/cart/remove/' + productId)
+            .then(function successCallback(response) {
+                $scope.loadCart();
+            })
+    }
+
+    $scope.checkOut = function () {
+        $location.path("/checkout");
+    }
+
+    $scope.disabledCheckOut = function () {
+        alert("To place an order, you need to log in.");
+    }
+
+    $scope.loadCart();
 });

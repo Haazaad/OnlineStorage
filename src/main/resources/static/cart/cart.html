@@ -1,26 +1,44 @@
 <div class="container">
     <p></p>
     <h3>Cart</h3>
-    <table class="table">
+    <span ng-show="cart.items.length == 0">Cart is empty</span>
+    <table class="table" ng-show="cart.items.length > 0">
         <thead>
         <tr>
-            <th scope="col">Product id</th>
             <th scope="col">Product title</th>
-            <th scope="col">Product price</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Total price</th>
             <th></th>
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="p in productsInCart">
-            <td>{{ p.id }}</td>
-            <td>{{ p.title }}</td>
-            <td>{{ p.price }}</td>
+        <tr ng-repeat="i in cart.items">
+            <td>{{ i.productTitle }}</td>
             <td>
-                <button class="btn btn-primary btn-sm" ng-click="deleteProductFromCart(p.id)"
-                        style="color: red; background-color: #e3f2fd" title="Delete product">&#10006;
+                <button class="btn btn-primary btn-sm" ng-click="decrementItem(i.productId)"
+                        style="color: black; background-color: #e3f2fd; margin-right: 2px">-
+                </button>
+                {{ i.quantity }}
+                <button class="btn btn-primary btn-sm" ng-click="incremetItem(i.productId)"
+                        style="color: black; background-color: #e3f2fd; margin-left: 2px">+
+                </button>
+            </td>
+            <td>{{ i.price }}</td>
+            <td>
+                <button class="btn btn-danger btn-sm" ng-click="removeItem(i.productId)"
+                        style="color: red; background-color: #e3f2fd">&#10006;
                 </button>
             </td>
         </tr>
+        <tr>
+            <td>{{ 'Ammount: ' + cart.totalPrice }}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
         </tbody>
     </table>
+    <p></p>
+    <button class="btn btn-primary" style="color: black; background-color: #e3f2fd" ng-show="cart.items.length > 0" ng-click="checkOut()">Checkout</button>
+<!--    <button class="btn btn-secondary" ng-show="cart.items.length > 0 && !isUserLoggedIn()" ng-click="disabledCheckOut()">Checkout</button>-->
 </div>

@@ -33,6 +33,10 @@
                 templateUrl: 'users/create_user.html',
                 controller: 'createUserController'
             })
+            .when('/checkout', {
+                templateUrl: 'check_out/check_out.html',
+                controller: 'checkOutController'
+            })
             .otherwise({
                 redirectTo: '/'
             });
@@ -49,7 +53,7 @@ angular.module('storage').controller('indexController', function ($rootScope, $h
     const contextPath = 'http://localhost:8888/webapp';
 
     $scope.moveToViewProduct = function () {
-        $location.path('/api/v1/product/' + $scope.view_productId.id)
+        $location.path('/product/' + $scope.view_productId.id);
     };
 
     $scope.tryToAuth = function () {
@@ -83,10 +87,6 @@ angular.module('storage').controller('indexController', function ($rootScope, $h
     };
 
     $scope.isUserLoggedIn = function () {
-        if ($localStorage.appUser) {
-            return true;
-        } else {
-            return false;
-        }
+        return !!$localStorage.appUser;
     };
 });
