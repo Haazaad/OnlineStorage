@@ -2,36 +2,32 @@ package ru.haazad.onlinestorage.webapp.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import ru.haazad.onlinestorage.webapp.dtos.ProductDto;
-import ru.haazad.onlinestorage.webapp.models.Product;
-import ru.haazad.onlinestorage.webapp.services.CartService;
+import ru.haazad.onlinestorage.webapp.services.impl.CartService;
+import ru.haazad.onlinestorage.webapp.utils.Cart;
 
-import java.util.List;
-
-// todo переписать
 @RestController
-@RequestMapping("/api/v1/carts")
+@RequestMapping("/api/v1/cart")
 @RequiredArgsConstructor
 public class CartController {
-
     private final CartService cartService;
 
     @GetMapping
-    public List<Product> getProductsInCart() {
-        return cartService.getProductsInCart();
+    public Cart getCartForCurrentUser() {
+        return cartService.getCartForCurrentUser();
     }
 
-    @PostMapping
-    public void addProductInCart(@RequestBody ProductDto productDto) {
-        Product product = new Product();
-        product.setId(productDto.getId());
-        product.setTitle(productDto.getTitle());
-        product.setPrice(productDto.getPrice());
-        cartService.addProduct(product);
+    @GetMapping("/add/{productId}")
+    public void addItem(@PathVariable Long productId) {
+        cartService.addItem(productId);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteProductById(@PathVariable Long id) {
-        cartService.deleteProductById(id);
+    @GetMapping("/decrement/{productId}")
+    public void decrementItem(@PathVariable Long productId) {
+        cartService.decrementItem(productId);
+    }
+
+    @GetMapping("/remove/{productId}")
+    public void removeItem(@PathVariable Long productId) {
+        cartService.removeItem(productId);
     }
 }

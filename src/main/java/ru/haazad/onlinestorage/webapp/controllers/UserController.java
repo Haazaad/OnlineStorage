@@ -1,36 +1,27 @@
 package ru.haazad.onlinestorage.webapp.controllers;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import ru.haazad.onlinestorage.webapp.dtos.UserDto;
-import ru.haazad.onlinestorage.webapp.models.Role;
-import ru.haazad.onlinestorage.webapp.models.User;
-import ru.haazad.onlinestorage.webapp.services.impl.RoleService;
+import ru.haazad.onlinestorage.webapp.exceptions.ApplicationError;
 import ru.haazad.onlinestorage.webapp.services.impl.UserService;
-
-import javax.transaction.Transactional;
-import java.util.Collections;
 
 @RestController
 @RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
-    private final RoleService roleService;
-    private final BCryptPasswordEncoder encoder;
 
-    @Transactional
     @PostMapping("/users")
-    public void createNewUser(@RequestBody UserDto userDto) {
-        User user = new User();
-        user.setUsername(userDto.getUsername());
-        user.setPassword(encoder.encode(userDto.getPassword()));
-        user.setEmail(userDto.getEmail());
-        Role role = roleService.findByRoleName(userDto.getRole());
-        user.setRoles(Collections.singletonList(role));
-        userService.addNewUser(user);
+    public ResponseEntity<?> createNewUser(@RequestBody UserDto userDto) {
+        if (!userDto.getPassword().equals(userDto.getPasswordConfirm())) {
+            return new ResponseEntity<>(new ApplicationError(HttpStatus.UNPROCESSABLE_ENTITY, "Incorrect password confirmation."), HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+        userService.addNewUser(userDto);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

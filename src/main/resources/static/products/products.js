@@ -28,21 +28,18 @@ angular.module('storage').controller('productsController', function ($scope, $ht
         });
     }
 
-    $scope.addProductInCart = function(product) {
-        $http.post(contextPath + '/carts', product)
-            .then(function successCallback (response) {
-                alert("Product was successful added in a cart");
-            }, function failureCallback (response) {
-                alert("Product wasn't added in a cart")
+    $scope.addProductInCart = function (productId) {
+        $http.get(contextPath + '/cart/add/' + productId)
+            .then(function successCallback(response) {
             })
     }
 
     $scope.moveToEditProduct = function (productId) {
-      $location.path('/edit_product/' + productId);
+        $location.path('/edit_product/' + productId);
     }
 
     $scope.moveToCreateNewProduct = function () {
-      $location.path('/create_product');
+        $location.path('/create_product');
     }
 
     $scope.generateIndexPage = function (startIndex, endIndex) {
