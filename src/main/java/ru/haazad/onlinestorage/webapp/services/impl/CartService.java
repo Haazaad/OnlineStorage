@@ -23,8 +23,8 @@ public class CartService {
         return (Cart) redisTemplate.opsForValue().get(CART_PREFIX + username);
     }
 
-    public void updateCart(String username, Cart cart) {
-        redisTemplate.opsForValue().set(username, cart);
+    private void updateCart(String username, Cart cart) {
+        redisTemplate.opsForValue().set(CART_PREFIX + username, cart);
     }
 
     public void addItem(Long productId, String username) {
@@ -55,7 +55,7 @@ public class CartService {
         updateCart(username, cart);
     }
 
-    public boolean isCartExists(String username) {
+    private boolean isCartExists(String username) {
         return redisTemplate.hasKey(CART_PREFIX + username);
     }
 
