@@ -1,7 +1,6 @@
 package ru.haazad.onlinestorage.webapp.models;
 
 import lombok.Data;
-import ru.haazad.onlinestorage.webapp.dtos.OrderItemDto;
 
 import javax.persistence.*;
 
@@ -14,8 +13,9 @@ public class OrderItem {
     @Column(name = "order_item_id")
     private Long id;
 
-    @Column(name = "product_product_id")
-    private Long productId;
+    @ManyToOne
+    @JoinColumn(name = "product_product_id")
+    private Product product;
 
     @Column(name = "quantity")
     private int quantity;
@@ -26,18 +26,7 @@ public class OrderItem {
     @Column(name = "total_price")
     private Float price;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "order_order_id")
     private Order order;
-
-    public OrderItem(OrderItemDto orderItemDto) {
-        this.productId = orderItemDto.getProductId();
-        this.quantity = orderItemDto.getQuantity();
-        this.productPrice = orderItemDto.getProductPrice();
-        this.price = orderItemDto.getPrice();
-    }
-
-    public OrderItem() {
-
-    }
 }

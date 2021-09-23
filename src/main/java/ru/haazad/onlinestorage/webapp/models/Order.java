@@ -10,6 +10,20 @@ import java.util.Collection;
 @Entity
 @Data
 @Table(name = "orders")
+@NamedEntityGraph(
+        name = "orders.for-front",
+        attributeNodes = {
+                @NamedAttributeNode(value = "items", subgraph = "items-products")
+        },
+        subgraphs = {
+                @NamedSubgraph(
+                        name = "items-products",
+                        attributeNodes = {
+                                @NamedAttributeNode("product")
+                        }
+                )
+        }
+)
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,6 +47,6 @@ public class Order {
     @Column(name = "delivery_address")
     private String address;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private Collection<OrderItem> items;
 }

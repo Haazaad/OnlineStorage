@@ -3,37 +3,53 @@ package ru.haazad.onlinestorage.webapp.services.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.haazad.onlinestorage.webapp.dtos.OrderDetailsDto;
+import ru.haazad.onlinestorage.webapp.dtos.OrderItemDto;
+import ru.haazad.onlinestorage.webapp.exceptions.ResourceNotFoundException;
 import ru.haazad.onlinestorage.webapp.models.Order;
 import ru.haazad.onlinestorage.webapp.models.OrderItem;
 import ru.haazad.onlinestorage.webapp.models.User;
 import ru.haazad.onlinestorage.webapp.repositories.OrderItemRepository;
 import ru.haazad.onlinestorage.webapp.repositories.OrderRepository;
+import ru.haazad.onlinestorage.webapp.services.ProductService;
+import ru.haazad.onlinestorage.webapp.utils.Cart;
 
 import javax.transaction.Transactional;
-import java.util.Collection;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class OrderService {
     private final CartService cartService;
     private final OrderRepository orderRepository;
-    private final OrderItemRepository orderItemRepository;
+    private final ProductService productService;
     private final UserService userService;
 
     @Transactional
-    public void addOrder(OrderDetailsDto orderDetailsDto, String username) {
+    public void createOrder(OrderDetailsDto orderDetailsDto, String username) {
         User user = userService.findByUsername(username);
         Order order = new Order();
-        Collection<OrderItem> orderItems = cartService.getCartForCurrentUser().getItems().stream().map(OrderItem::new).collect(Collectors.toList());
+        Cart cart = cartService.getCartForCurrentUser(username);
         order.setAddress(orderDetailsDto.getAddress());
         order.setPhone(orderDetailsDto.getPhone());
-        order.setPrice(cartService.getCartForCurrentUser().getTotalPrice());
+        order.setPrice(cart.getTotalPrice());
         order.setUser(user);
-        order.setItems(orderItems);
+        List<OrderItem> itemList = new ArrayList<>();
+        for (OrderItemDto i : cart.getItems()) {
+            OrderItem orderItem = new OrderItem();
+            orderItem.setOrder(order);
+            orderItem.setPrice(i.getPrice());
+            orderItem.setProductPrice(i.getProductPrice());
+            orderItem.setQuantity(i.getQuantity());
+            orderItem.setProduct(productService.findProductById(i.getProductId()).orElseThrow(() -> new ResourceNotFoundException("Could not find product at checkout. Product ID: " + i.getProductId())));
+            itemList.add(orderItem);
+        }
+        order.setItems(itemList);
         orderRepository.save(order);
-        order.getItems().forEach(i -> i.setOrder(order));
-        orderItemRepository.saveAll(order.getItems());
-        cartService.clearCart();
+        cartService.clearCart(username);
+    }
+
+    public List<Order> findAllByUsername(String username) {
+        return orderRepository.findAllByUsername(username);
     }
 }

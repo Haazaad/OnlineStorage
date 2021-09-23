@@ -37,6 +37,10 @@
                 templateUrl: 'check_out/check_out.html',
                 controller: 'checkOutController'
             })
+            .when('/orders', {
+                templateUrl: 'orders/orders.html',
+                controller: 'ordersController'
+            })
             .otherwise({
                 redirectTo: '/'
             });
