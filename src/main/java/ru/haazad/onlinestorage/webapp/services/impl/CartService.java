@@ -8,6 +8,8 @@ import ru.haazad.onlinestorage.webapp.models.Product;
 import ru.haazad.onlinestorage.webapp.services.ProductService;
 import ru.haazad.onlinestorage.webapp.utils.Cart;
 
+import java.security.Principal;
+
 @Service
 @RequiredArgsConstructor
 public class CartService {
@@ -16,47 +18,71 @@ public class CartService {
     private final ProductService productService;
     private final RedisTemplate<String, Object> redisTemplate;
 
-    public Cart getCartForCurrentUser(String username) {
-        if (!isCartExists(username)) {
-            redisTemplate.opsForValue().set(CART_PREFIX + username, new Cart());
+    private String getCartKey(Principal principal, String uuid) {
+        if (principal != null) {
+            return CART_PREFIX + principal.getName();
         }
-        return (Cart) redisTemplate.opsForValue().get(CART_PREFIX + username);
+        return CART_PREFIX + uuid;
     }
 
-    private void updateCart(String username, Cart cart) {
-        redisTemplate.opsForValue().set(CART_PREFIX + username, cart);
+    public Cart getCartForCurrentUser(Principal principal, String uuid) {
+        String cartKey = getCartKey(principal, uuid);
+        if (!redisTemplate.hasKey(cartKey)) {
+            redisTemplate.opsForValue().set(cartKey, new Cart());
+        }
+        return (Cart) redisTemplate.opsForValue().get(cartKey);
     }
 
-    public void addItem(Long productId, String username) {
-        Cart cart = getCartForCurrentUser(username);
+    public Cart getCartByKey(String cartKey) {
+        if (!redisTemplate.hasKey(CART_PREFIX + cartKey)) {
+            redisTemplate.opsForValue().set(CART_PREFIX + cartKey, new Cart());
+        }
+        return (Cart) redisTemplate.opsForValue().get(CART_PREFIX + cartKey);
+    }
+
+    private void updateCart(Principal principal, String uuid, Cart cart) {
+        String cartKey = getCartKey(principal, uuid);
+        redisTemplate.opsForValue().set(cartKey, cart);
+    }
+
+    private void updateCartByKey(String cartKey, Cart cart) {
+        redisTemplate.opsForValue().set(CART_PREFIX + cartKey, cart);
+    }
+
+    public void addItem(Principal principal, String uuid, Long productId) {
+        Cart cart = getCartForCurrentUser(principal, uuid);
         if (cart.add(productId)) {
+            updateCart(principal, uuid, cart);
             return;
         }
         Product product = productService.findProductById(productId).orElseThrow(() -> new ResourceNotFoundException(String.format("Unable to add a product to the cart because product with ID=%d does not exist.", productId)));
         cart.add(product);
-        updateCart(username, cart);
+        updateCart(principal, uuid, cart);
     }
 
-    public void removeItem(Long productId, String username) {
-        Cart cart = getCartForCurrentUser(username);
+    public void removeItem(Principal principal, String uuid, Long productId) {
+        Cart cart = getCartForCurrentUser(principal, uuid);
         cart.remove(productId);
-        updateCart(username, cart);
+        updateCart(principal, uuid, cart);
     }
 
-    public void decrementItem(Long productId, String username) {
-        Cart cart = getCartForCurrentUser(username);
+    public void decrementItem(Principal principal, String uuid, Long productId) {
+        Cart cart = getCartForCurrentUser(principal, uuid);
         cart.decrement(productId);
-        updateCart(username, cart);
+        updateCart(principal, uuid, cart);
     }
 
-    public void clearCart(String username) {
-        Cart cart = getCartForCurrentUser(username);
+    public void clearCart(Principal principal, String uuid) {
+        Cart cart = getCartForCurrentUser(principal, uuid);
         cart.clear();
-        updateCart(username, cart);
+        updateCart(principal, uuid, cart);
     }
 
-    private boolean isCartExists(String username) {
-        return redisTemplate.hasKey(CART_PREFIX + username);
+    public void merge(Principal principal, String uuid) {
+        Cart guestCart = getCartByKey(uuid);
+        Cart userCart = getCartByKey(principal.getName());
+        userCart.merge(guestCart);
+        updateCartByKey(principal.getName(), userCart);
+        updateCartByKey(uuid, guestCart);
     }
-
 }

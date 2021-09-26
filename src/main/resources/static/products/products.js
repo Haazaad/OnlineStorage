@@ -1,4 +1,4 @@
-angular.module('storage').controller('productsController', function ($scope, $http, $location) {
+angular.module('storage').controller('productsController', function ($scope, $http, $location, $localStorage) {
     const contextPath = 'http://localhost:8888/webapp/api/v1';
     let currentIndexPage = 1;
 
@@ -29,7 +29,7 @@ angular.module('storage').controller('productsController', function ($scope, $ht
     }
 
     $scope.addProductInCart = function (productId) {
-        $http.get(contextPath + '/cart/add/' + productId)
+        $http.get(contextPath + '/cart/' + $localStorage.webappGuestCartId + '/add/' + productId)
             .then(function successCallback(response) {
             })
     }

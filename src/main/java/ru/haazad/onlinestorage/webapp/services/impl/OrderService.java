@@ -14,6 +14,7 @@ import ru.haazad.onlinestorage.webapp.services.ProductService;
 import ru.haazad.onlinestorage.webapp.utils.Cart;
 
 import javax.transaction.Transactional;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,10 +27,10 @@ public class OrderService {
     private final UserService userService;
 
     @Transactional
-    public void createOrder(OrderDetailsDto orderDetailsDto, String username) {
-        User user = userService.findByUsername(username);
+    public void createOrder(OrderDetailsDto orderDetailsDto, Principal principal) {
+        User user = userService.findByUsername(principal.getName());
         Order order = new Order();
-        Cart cart = cartService.getCartForCurrentUser(username);
+        Cart cart = cartService.getCartForCurrentUser(principal, null);
         order.setAddress(orderDetailsDto.getAddress());
         order.setPhone(orderDetailsDto.getPhone());
         order.setPrice(cart.getTotalPrice());
@@ -46,7 +47,7 @@ public class OrderService {
         }
         order.setItems(itemList);
         orderRepository.save(order);
-        cartService.clearCart(username);
+        cartService.clearCart(principal, null);
     }
 
     public List<Order> findAllByUsername(String username) {

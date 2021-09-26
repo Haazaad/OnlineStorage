@@ -2,7 +2,7 @@ angular.module('storage').controller('checkOutController', function ($scope, $ht
     const contextPath = 'http://localhost:8888/webapp/api/v1';
 
     $scope.loadCart = function () {
-        $http.get(contextPath + '/cart')
+        $http.get(contextPath + '/cart/0')
             .then(function successCallback(response) {
                 console.log(response);
                 $scope.cart = response.data;

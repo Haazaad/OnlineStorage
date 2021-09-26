@@ -20,7 +20,7 @@ public class OrderController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void createOrder(@RequestBody OrderDetailsDto orderDetailsDto, Principal principal) {
-        orderService.createOrder(orderDetailsDto, principal.getName());
+        orderService.createOrder(orderDetailsDto, principal);
     }
 
     @GetMapping
