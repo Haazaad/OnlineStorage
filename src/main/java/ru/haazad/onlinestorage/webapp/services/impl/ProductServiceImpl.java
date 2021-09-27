@@ -4,12 +4,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import ru.haazad.onlinestorage.webapp.dtos.ProductDto;
+import ru.haazad.onlinestorage.webapp.exceptions.ResourceNotFoundException;
 import ru.haazad.onlinestorage.webapp.models.Product;
 import ru.haazad.onlinestorage.webapp.repositories.ProductRepository;
 import ru.haazad.onlinestorage.webapp.services.ProductService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -56,6 +59,16 @@ public class ProductServiceImpl implements ProductService {
         } else {
             return productRepository.findAllByPriceBetween(minPrice, maxPrice);
         }
+    }
+
+    @Override
+    public List<ProductDto> getAllProduct() {
+        return productRepository.findAll().stream().map(ProductDto::new).collect(Collectors.toList());
+    }
+
+    @Override
+    public ProductDto getProductById(Long id) {
+        return productRepository.findById(id).map(ProductDto::new).orElseThrow(() -> new ResourceNotFoundException("Product id = " + id + " not found"));
     }
 
 

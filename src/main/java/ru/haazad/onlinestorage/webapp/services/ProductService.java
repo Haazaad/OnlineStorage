@@ -2,6 +2,7 @@ package ru.haazad.onlinestorage.webapp.services;
 
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import ru.haazad.onlinestorage.webapp.dtos.ProductDto;
 import ru.haazad.onlinestorage.webapp.models.Product;
 
 import java.util.List;
@@ -23,5 +24,9 @@ public interface ProductService {
     void modifyProduct(Product product);
 
     List<Product> filterProductByPrice(Float minPrice, Float maxPrice);
+
+    List<ProductDto> getAllProduct();
+
+    ProductDto getProductById(Long id);
 
 }
