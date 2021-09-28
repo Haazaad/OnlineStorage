@@ -27,7 +27,7 @@ public class ProductEndpoint {
 
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getAllProductsRequest")
     @ResponsePayload
-    public GetAllProductsResponse getProductById(@RequestPayload GetAllProductsRequest request) {
+    public GetAllProductsResponse getAllProducts(@RequestPayload GetAllProductsRequest request) {
         GetAllProductsResponse response = new GetAllProductsResponse();
         productService.getAllProduct().forEach(response.getProducts()::add);
         return response;
