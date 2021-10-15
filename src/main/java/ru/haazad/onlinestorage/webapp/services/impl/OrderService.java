@@ -53,4 +53,8 @@ public class OrderService {
     public List<Order> findAllByUsername(String username) {
         return orderRepository.findAllByUsername(username);
     }
+
+    public boolean haveOrderByProductId(String username, Long productId) {
+        return orderRepository.hasOrder(userService.findByUsername(username).getId(), productId);
+    }
 }
