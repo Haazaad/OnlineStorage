@@ -13,4 +13,26 @@
     <button class="btn btn-primary btn-sm" style="background-color: #e3f2fd; color: black"
             ng-click="moveToEditProduct(view_product.id)">Edit
     </button>
+    <p></p>
+    <hr>
+    <p></p>
+    <h4>Comments</h4>
+    <p></p>
+    <form novalidate ng-show="isCustomer()" ng-submit="postNewComment()">
+        <input class="form-control" type="text" placeholder="Type you comment here" ng-model="new_comment.description" >
+        <p></p>
+        <button type="submit" class="btn btn-primary" style="background-color: #e3f2fd; color: black">Post comment</button>
+    </form>
+    <p></p>
+    <div class="container" ng-repeat="comment in comments">
+        <div class="container">
+            <h6>{{ comment.username }}</h6>
+            <a>{{ comment.creationDate | date: 'medium' }}</a>
+        </div>
+        <p></p>
+        <div class="container">
+            {{ comment.description }}
+        </div>
+        <hr>
+    </div>
 </div>

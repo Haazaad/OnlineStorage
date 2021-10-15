@@ -8,7 +8,6 @@ import ru.haazad.onlinestorage.webapp.exceptions.ResourceNotFoundException;
 import ru.haazad.onlinestorage.webapp.models.Order;
 import ru.haazad.onlinestorage.webapp.models.OrderItem;
 import ru.haazad.onlinestorage.webapp.models.User;
-import ru.haazad.onlinestorage.webapp.repositories.OrderItemRepository;
 import ru.haazad.onlinestorage.webapp.repositories.OrderRepository;
 import ru.haazad.onlinestorage.webapp.services.ProductService;
 import ru.haazad.onlinestorage.webapp.utils.Cart;
@@ -30,7 +29,7 @@ public class OrderService {
     public void createOrder(OrderDetailsDto orderDetailsDto, Principal principal) {
         User user = userService.findByUsername(principal.getName());
         Order order = new Order();
-        Cart cart = cartService.getCartForCurrentUser(principal, null);
+        Cart cart = cartService.getCurrentCart(cartService.getCartUuidFromSuffix(user.getUsername()));
         order.setAddress(orderDetailsDto.getAddress());
         order.setPhone(orderDetailsDto.getPhone());
         order.setPrice(cart.getTotalPrice());
@@ -47,10 +46,15 @@ public class OrderService {
         }
         order.setItems(itemList);
         orderRepository.save(order);
-        cartService.clearCart(principal, null);
+        cart.clear();
+        cartService.updateCart(cartService.getCartUuidFromSuffix(user.getUsername()), cart);
     }
 
     public List<Order> findAllByUsername(String username) {
         return orderRepository.findAllByUsername(username);
+    }
+
+    public boolean haveOrderByProductId(String username, Long productId) {
+        return orderRepository.hasOrder(userService.findByUsername(username).getId(), productId);
     }
 }

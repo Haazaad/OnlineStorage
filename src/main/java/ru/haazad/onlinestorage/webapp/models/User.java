@@ -44,4 +44,7 @@ public class User {
     @OneToMany(mappedBy = "user")
     private Collection<Order> orders;
 
+    @OneToMany(mappedBy = "user")
+    private Collection<Comment> comments;
+
 }
