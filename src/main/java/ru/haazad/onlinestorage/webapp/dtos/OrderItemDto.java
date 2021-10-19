@@ -2,6 +2,7 @@ package ru.haazad.onlinestorage.webapp.dtos;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.haazad.onlinestorage.webapp.models.OrderItem;
 import ru.haazad.onlinestorage.webapp.models.Product;
 
 @Data
@@ -19,6 +20,14 @@ public class OrderItemDto {
         this.quantity = 1;
         this.productPrice = product.getPrice();
         this.price = product.getPrice();
+    }
+
+    public OrderItemDto(OrderItem orderItem) {
+        this.productId = orderItem.getProduct().getId();
+        this.productTitle = orderItem.getProduct().getTitle();
+        this.quantity = orderItem.getQuantity();
+        this.productPrice = orderItem.getProductPrice();
+        this.price = orderItem.getPrice();
     }
 
     public void changeQuantity(int delta) {

@@ -24,14 +24,14 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#!/">Home</a>
                     </li>
-                    <li class="nav-item" ng-show="isUserLoggedIn()">
+                    <li class="nav-item">
                         <a class="nav-link" href="#!/products">Products</a>
+                    </li>
+                    <li class="nav-item" ng-show="isUserLoggedIn()">
+                        <a class="nav-link" href="#!/orders">Orders</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#!/cart">Cart</a>
-                    </li>
-                    <li class="nav-item" ng-show="isUserLoggedIn()">
-                        <a class="nav-link" href="#!/create_new_user">Create new user</a>
                     </li>
                 </ul>
             </div>
@@ -41,7 +41,7 @@
                 <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
             <form class="d-flex" ng-show="isUserLoggedIn()" style="margin-left: 5px">
-                <button class="btn btn-outline-success" ng-click="tryToLogout()" type="submit">Выйти</button>
+                <button class="btn btn-outline-success" ng-click="tryToLogout()" type="submit">Logout</button>
             </form>
         </nav>
         <div class="container" ng-show="!isUserLoggedIn()" style="margin-top: 10px">
@@ -65,8 +65,10 @@
     <ng-view></ng-view>
 
     <script src="index.js"></script>
+    <script src="admin/admin.js"></script>
     <script src="cart/cart.js"></script>
     <script src="check_out/check_out.js"></script>
+    <script src="orders/orders.js"></script>
     <script src="product/product.js"></script>
     <script src="products/products.js"></script>
     <script src="welcome/welcome.js"></script>

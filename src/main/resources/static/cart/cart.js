@@ -1,8 +1,8 @@
-angular.module('storage').controller('cartController', function ($scope, $http, $location) {
+angular.module('storage').controller('cartController', function ($scope, $http, $location, $localStorage) {
     const contextPath = 'http://localhost:8888/webapp/api/v1';
 
     $scope.loadCart = function () {
-        $http.get(contextPath + '/cart')
+        $http.get(contextPath + '/cart/' + $localStorage.webappGuestCartId)
             .then(function successCallback(response) {
                 console.log(response);
                 $scope.cart = response.data;
@@ -10,21 +10,21 @@ angular.module('storage').controller('cartController', function ($scope, $http, 
     }
 
     $scope.incremetItem = function (productId) {
-        $http.get(contextPath + '/cart/add/' + productId)
+        $http.get(contextPath + '/cart/' + $localStorage.webappGuestCartId + '/add/' + productId)
             .then(function successCallback(response) {
                 $scope.loadCart();
             })
     }
 
     $scope.decrementItem = function (productId) {
-        $http.get(contextPath + '/cart/decrement/' + productId)
+        $http.get(contextPath + '/cart/' + $localStorage.webappGuestCartId + '/decrement/' + productId)
             .then(function successCallback(response) {
                 $scope.loadCart();
             })
     }
 
     $scope.removeItem = function (productId) {
-        $http.get(contextPath + '/cart/remove/' + productId)
+        $http.get(contextPath + '/cart/' + $localStorage.webappGuestCartId + '/remove/' + productId)
             .then(function successCallback(response) {
                 $scope.loadCart();
             })

@@ -37,14 +37,29 @@
                 templateUrl: 'check_out/check_out.html',
                 controller: 'checkOutController'
             })
+            .when('/orders', {
+                templateUrl: 'orders/orders.html',
+                controller: 'ordersController'
+            })
+            .when('/admin', {
+                templateUrl: 'admin/admin.html',
+                controller: 'adminController'
+            })
             .otherwise({
                 redirectTo: '/'
             });
     }
 
     function run($rootScope, $http, $localStorage) {
+        const contextPath = 'http://localhost:8888/webapp';
         if ($localStorage.appUser) {
             $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.appUser.token;
+        }
+        if (!$localStorage.webappGuestCartId){
+            $http.get(contextPath + '/api/v1/cart/generate')
+                .then(function successCallback (response) {
+                    $localStorage.webappGuestCartId = response.data.value
+                })
         }
     }
 })();
@@ -65,6 +80,11 @@ angular.module('storage').controller('indexController', function ($rootScope, $h
 
                     $scope.user.username = null;
                     $scope.user.password = null;
+
+                    $http.get(contextPath + '/api/v1/cart/' + $localStorage.webappGuestCartId + '/merge')
+                        .then(function successCallback (response) {
+                            $localStorage.webappGuestCartId = response.data.value
+                        })
                 }
             }, function errorCallback (response) {
             });
