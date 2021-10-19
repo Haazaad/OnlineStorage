@@ -2,6 +2,7 @@ package ru.haazad.onlinestorage.webapp.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import ru.haazad.onlinestorage.webapp.dtos.ProductDto;
 import ru.haazad.onlinestorage.webapp.exceptions.ResourceNotFoundException;
@@ -20,16 +21,17 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping
-    public Page<ProductDto> showAllProducts(@RequestParam(defaultValue = "1", name = "p") int pageIndex) {
+    public Page<ProductDto> showAllProducts(@RequestParam(defaultValue = "1", name = "p") int pageIndex,
+                                            @RequestParam MultiValueMap<String, String> params) {
         if (pageIndex < 1) {
             pageIndex = 1;
         }
-        return productService.findAllProduct(pageIndex - 1, PAGE_SIZE).map(ProductDto::new);
+        return productService.findAllProduct(pageIndex - 1, PAGE_SIZE, params).map(ProductDto::new);
     }
 
     @GetMapping("/{id}")
     public ProductDto showProduct(@PathVariable Long id) {
-       return new ProductDto(productService.findProductById(id).orElseThrow(() -> new ResourceNotFoundException("Product id = " + id + " not found")));
+        return new ProductDto(productService.findProductById(id).orElseThrow(() -> new ResourceNotFoundException("Product id = " + id + " not found")));
     }
 
     @PostMapping

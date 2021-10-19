@@ -6,9 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class WebappApplication {
 	// Домашнее задание:
-	// 1. * Попробовать реализовать корзины + редис (Задача довольно тяжелая)
-	// 2. Если с кодом тяжело, то хотя бы текстом опишите логику работы (общую идею)
-
+	// 1. Добавить страницу с товаром, и для пользователей, которые купили этот товар, возможность
+	// оставлять отзывы. Для всех остальных просто смотреть на отзывы
 	public static void main(String[] args) {
 		SpringApplication.run(WebappApplication.class, args);
 	}

@@ -3,8 +3,6 @@ version: "3.2"
 volumes:
   storage-postgres:
     driver: local
-  redis:
-    driver: local
 
 services:
   postgres:
@@ -20,12 +18,3 @@ services:
       POSTGRES_PASSWORD: postgrespass
     ports:
       - "5435:5432"
-  redis:
-    image: redis
-    container_name: redis
-    command: [ "redis-server", "--protected-mode", "no" ]
-    ports:
-      - "6379:6379"
-    environment:
-      - ALLOW_EMPTY_PASSWORD=yes
-      - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL

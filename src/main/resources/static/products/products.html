@@ -1,5 +1,28 @@
 <div class="container">
     <p></p>
+    <div class="container">
+        <h4>Filters</h4>
+        <form novalidate ng-submit="getProducts()">
+            <div class="form-floating input-group-sm">
+                <input type="text" class="form-control" id="filterTitle" placeholder="" ng-model="filter.title">
+                <label for="filterTitle">Product title</label>
+            </div>
+            <p></p>
+            <div class="form-floating input-group-sm">
+                <input type="number" class="form-control" id="filterMinPrice" placeholder="" ng-model="filter.minPrice">
+                <label for="filterMinPrice">Product min price</label>
+            </div>
+            <p></p>
+            <div class="form-floating input-group-sm">
+                <input type="number" class="form-control" id="filterMaxPrice" placeholder="" ng-model="filter.maxPrice">
+                <label for="filterMaxPrice">Product max price</label>
+            </div>
+            <p></p>
+            <button class="btn btn-outline-warning btn-primary" style="color: black; background-color: #e3f2fd" type="submit">Apply</button>
+        </form>
+    </div>
+
+    <p></p>
     <table class="table">
         <thead>
         <tr>
@@ -18,7 +41,7 @@
             <td>{{ p.price }}</td>
             <td>
                 <button class="btn btn-primary btn-sm" style="background-color: #e3f2fd; color: black"
-                        ng-click="moveToEditProduct(p.id)">Edit
+                        ng-click="moveToViewProduct(p.id)">View
                 </button>
             </td>
             <td>
@@ -44,10 +67,5 @@
                 </li>
             </ul>
         </nav>
-    </div>
-    <div class="container">
-        <button class="btn btn-primary" style="background-color: #e3f2fd; color: black"
-                ng-click="moveToCreateNewProduct()">Create new Product
-        </button>
     </div>
 </div>
