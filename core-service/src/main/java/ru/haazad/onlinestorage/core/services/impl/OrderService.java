@@ -5,16 +5,16 @@ import org.springframework.stereotype.Service;
 import ru.haazad.onlinestorage.api.dtos.CartDto;
 import ru.haazad.onlinestorage.api.dtos.OrderDetailsDto;
 import ru.haazad.onlinestorage.api.dtos.OrderItemDto;
+import ru.haazad.onlinestorage.api.dtos.UserDto;
 import ru.haazad.onlinestorage.api.exceptions.ResourceNotFoundException;
 import ru.haazad.onlinestorage.core.integration.CartServiceIntegration;
+import ru.haazad.onlinestorage.core.integration.UserServiceIntegration;
 import ru.haazad.onlinestorage.core.models.Order;
 import ru.haazad.onlinestorage.core.models.OrderItem;
-import ru.haazad.onlinestorage.core.models.User;
 import ru.haazad.onlinestorage.core.repositories.OrderRepository;
 import ru.haazad.onlinestorage.core.services.ProductService;
 
 import javax.transaction.Transactional;
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,19 +22,19 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderService {
     private final CartServiceIntegration cartServiceIntegration;
+    private final UserServiceIntegration userServiceIntegration;
     private final OrderRepository orderRepository;
     private final ProductService productService;
-    private final UserService userService;
 
     @Transactional
-    public void createOrder(OrderDetailsDto orderDetailsDto, Principal principal) {
-        User user = userService.findByUsername(principal.getName());
+    public void createOrder(OrderDetailsDto orderDetailsDto, String username) {
         Order order = new Order();
-        CartDto cartDto = cartServiceIntegration.getUserCartDto(principal);
+        CartDto cartDto = cartServiceIntegration.getUserCartDto(username);
+        UserDto userDto = userServiceIntegration.getUserDto(username);
         order.setAddress(orderDetailsDto.getAddress());
         order.setPhone(orderDetailsDto.getPhone());
         order.setPrice(cartDto.getTotalPrice());
-        order.setUser(user);
+        order.setUserId(userDto.getId());
         List<OrderItem> itemList = new ArrayList<>();
         for (OrderItemDto i : cartDto.getItems()) {
             OrderItem orderItem = new OrderItem();
@@ -47,7 +47,7 @@ public class OrderService {
         }
         order.setItems(itemList);
         orderRepository.save(order);
-        cartServiceIntegration.clear(principal);
+        cartServiceIntegration.clearUserCart(username);
     }
 
     public List<Order> findAllByUsername(String username) {
@@ -55,6 +55,7 @@ public class OrderService {
     }
 
     public boolean haveOrderByProductId(String username, Long productId) {
-        return orderRepository.hasOrder(userService.findByUsername(username).getId(), productId);
+        UserDto userDto = userServiceIntegration.getUserDto(username);
+        return orderRepository.hasOrder(userDto.getId(), productId);
     }
 }

@@ -6,11 +6,13 @@
     <modules>
         <module>cart-service</module>
 		<module>core-service</module>
-	</modules>
+        <module>front-service</module>
+        <module>auth-service</module>
+    </modules>
     <parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.5.3</version>
+		<version>2.5.5</version>
 		<relativePath/>
 	</parent>
 	<groupId>ru.haazad.onlinestorage</groupId>

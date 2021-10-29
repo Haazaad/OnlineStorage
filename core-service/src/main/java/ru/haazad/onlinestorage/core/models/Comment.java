@@ -19,9 +19,8 @@ public class Comment {
     @Column(name = "product_product_id")
     private Long productId;
 
-    @ManyToOne
-    @JoinColumn(name = "user_user_id")
-    private User user;
+    @Column(name = "username")
+    private String username;
 
     @CreationTimestamp
     @Column(name = "creation_time")

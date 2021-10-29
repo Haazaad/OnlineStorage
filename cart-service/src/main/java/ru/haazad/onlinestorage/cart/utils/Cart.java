@@ -11,7 +11,6 @@ import java.util.List;
 
 @Data
 public class Cart {
-
     private List<OrderItemDto> items;
     private Float totalPrice;
 

@@ -9,4 +9,4 @@ utils:
 
 integration:
   product-service:
-    url: http://localhost:8888/webapp-core
+    url: http://localhost:5555/webapp-core
