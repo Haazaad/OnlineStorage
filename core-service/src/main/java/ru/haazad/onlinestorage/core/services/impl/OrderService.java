@@ -51,7 +51,8 @@ public class OrderService {
     }
 
     public List<Order> findAllByUsername(String username) {
-        return orderRepository.findAllByUsername(username);
+        UserDto userDto = userServiceIntegration.getUserDto(username);
+        return orderRepository.findAllByUserId(userDto.getId());
     }
 
     public boolean haveOrderByProductId(String username, Long productId) {
