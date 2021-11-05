@@ -1,0 +1,12 @@
+server:
+  port: 8889
+  servlet:
+    context-path: /webapp-cart
+
+utils:
+  cart:
+    prefix: webapp_cart_
+
+integration:
+  product-service:
+    url: http://localhost:5555/webapp-core
