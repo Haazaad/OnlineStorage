@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class Converter {
 
     public CommentDto commentToDto(Comment comment) {
-        return new CommentDto(comment.getId(), comment.getProductId(), comment.getDescription(), comment.getCreationDate(), comment.getUser().getUsername());
+        return new CommentDto(comment.getId(), comment.getProductId(), comment.getUsername(), comment.getCreationDate(), comment.getDescription());
     }
 
     public OrderDto orderToDto(Order order) {

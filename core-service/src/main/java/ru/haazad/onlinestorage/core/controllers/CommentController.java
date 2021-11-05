@@ -6,13 +6,13 @@ import ru.haazad.onlinestorage.api.dtos.CommentDto;
 import ru.haazad.onlinestorage.core.services.impl.CommentService;
 import ru.haazad.onlinestorage.core.utils.Converter;
 
-import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/comments")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class CommentController {
     private final CommentService commentService;
     private final Converter converter;
@@ -23,7 +23,7 @@ public class CommentController {
     }
 
     @PostMapping
-    public void addNewComment(Principal principal, @RequestBody CommentDto commentDto) {
-        commentService.createNewComment(principal.getName(), commentDto);
+    public void addNewComment(@RequestHeader String username, @RequestBody CommentDto commentDto) {
+        commentService.createNewComment(username, commentDto);
     }
 }

@@ -30,9 +30,8 @@ public class Order {
     @Column(name = "order_id")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_user_id")
-    private User user;
+    @Column(name = "user_user_id")
+    private Long userId;
 
     @CreationTimestamp
     @Column(name = "creation_time")

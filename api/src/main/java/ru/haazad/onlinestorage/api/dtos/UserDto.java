@@ -12,6 +12,16 @@ public class UserDto {
     private LocalDateTime updatedDate;
     private String role;
 
+    public UserDto() {}
+
+    public UserDto(Long id) {
+        this.id = id;
+    }
+
+    public UserDto(String username) {
+        this.username = username;
+    }
+
     public UserDto(Long id, String username, String password, String passwordConfirm, String email, LocalDateTime createdDate, LocalDateTime updatedDate, String role) {
         this.id = id;
         this.username = username;

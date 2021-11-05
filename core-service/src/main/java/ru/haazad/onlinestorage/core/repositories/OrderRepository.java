@@ -11,9 +11,9 @@ import java.util.List;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
-    @Query("select o from Order o where o.user.username = :username")
+    @Query("select o from Order o where o.userId = :userId")
     @EntityGraph(value = "orders.for-front")
-    List<Order> findAllByUsername(String username);
+    List<Order> findAllByUserId(Long userId);
 
     @Query(nativeQuery = true, value = "select case when count(o) > 0 then true else false end " +
             "from orders o " +

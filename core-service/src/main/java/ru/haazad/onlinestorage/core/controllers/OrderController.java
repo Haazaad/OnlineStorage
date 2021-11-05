@@ -8,28 +8,28 @@ import ru.haazad.onlinestorage.api.dtos.OrderDetailsDto;
 import ru.haazad.onlinestorage.core.services.impl.OrderService;
 import ru.haazad.onlinestorage.core.utils.Converter;
 
-import java.security.Principal;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/orders")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class OrderController {
     private final OrderService orderService;
     private final Converter converter;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createOrder(@RequestBody OrderDetailsDto orderDetailsDto, Principal principal) {
-        orderService.createOrder(orderDetailsDto, principal);
+    public void createOrder(@RequestBody OrderDetailsDto orderDetailsDto, @RequestHeader String username) {
+        orderService.createOrder(orderDetailsDto, username);
     }
 
     @GetMapping
-    public ResponseEntity<?> getOrdersForCurrentOrders(Principal principal, @RequestParam(required = false) Long productId) {
+    public ResponseEntity<?> getOrdersForCurrentOrders(@RequestHeader String username, @RequestParam(required = false) Long productId) {
         if (productId != null) {
-            return ResponseEntity.ok(orderService.haveOrderByProductId(principal.getName(), productId));
+            return ResponseEntity.ok(orderService.haveOrderByProductId(username, productId));
         }
-        return ResponseEntity.ok(orderService.findAllByUsername(principal.getName()).stream().map(converter::orderToDto).collect(Collectors.toList()));
+        return ResponseEntity.ok(orderService.findAllByUsername(username).stream().map(converter::orderToDto).collect(Collectors.toList()));
     }
 
 }

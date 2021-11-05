@@ -8,6 +8,7 @@ services:
   postgres:
     image: postgres:12
     container_name: storage-postgres
+    domainname: postgres
     volumes:
       - type: volume
         source: storage-postgres
